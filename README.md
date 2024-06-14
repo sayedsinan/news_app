@@ -1,4 +1,4 @@
- Info Feed
+### Info Feed
 
 Info Feed is a mobile application developed with Flutter to keep you updated with the latest news from around the world. It provides a user-friendly interface for browsing news articles, searching for specific topics, and customizing your news feed based on your interests.
 
