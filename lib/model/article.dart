@@ -5,6 +5,7 @@ class NewsArticle {
   final String url;
   final String content;
   final String sourceName;
+  final String time;
   final bool isFavorite;
 
   NewsArticle({
@@ -13,6 +14,7 @@ class NewsArticle {
     required this.url,
     required this.imageUrl,
     required this.content,
+    required this.time,
     required this.sourceName,
     this.isFavorite = false,
   });
@@ -23,6 +25,7 @@ class NewsArticle {
       description: json['description'] ?? 'nothing',
       url: json['url'] ?? 'sorry',
       content: json['content'] ?? '',
+      time: json['publishedAt'] ?? 'not available',
       imageUrl: json['urlToImage'] ?? '',
       sourceName: json['source']['name'],
     );

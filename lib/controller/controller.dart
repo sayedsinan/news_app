@@ -6,11 +6,21 @@ import 'package:news_app/model/article.dart';
 class NewsService extends GetxController {
   RxList<NewsArticle> articles = <NewsArticle>[].obs;
   RxBool isLoading = true.obs;
+  final RxList<NewsArticle> favorites =
+      <NewsArticle>[].obs; // New list for favorites
 
   @override
   void onInit() {
     fetchArticles();
     super.onInit();
+  }
+
+  void toggleFavorite(NewsArticle article) {
+    if (favorites.contains(article)) {
+      favorites.remove(article);
+    } else {
+      favorites.add(article);
+    }
   }
 
   Future<void> fetchArticles() async {

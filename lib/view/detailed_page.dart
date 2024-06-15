@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/model/article.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class NewsDetailPage extends StatelessWidget {
   final NewsArticle article;
@@ -26,7 +28,6 @@ class NewsDetailPage extends StatelessWidget {
                     'assets/nothing.jpg',
                     fit: BoxFit.cover,
                   ),
-
             const SizedBox(height: 8.0),
             Row(
               children: [
@@ -40,6 +41,9 @@ class NewsDetailPage extends StatelessWidget {
                 ),
               ],
             ),
+            Row(
+              children: [Text('published at : '), Text(article.time)],
+            ),
             SizedBox(height: 4.0),
             Text(
               article.description,
@@ -49,7 +53,11 @@ class NewsDetailPage extends StatelessWidget {
               ),
             ),
             SizedBox(height: 8.0),
-            // Add more details or widgets as needed
+            ElevatedButton(
+                onPressed: () {
+                  launch(article.url);
+                },
+                child: Text('Read more'))
           ],
         ),
       ),

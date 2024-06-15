@@ -2,13 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:news_app/controller/controller.dart';
 import 'package:news_app/view/detailed_page.dart';
-import 'package:news_app/view/widgets/news_box.dart';
-// Replace with your news detail page file
-
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:news_app/controller/controller.dart';
-import 'package:news_app/view/detailed_page.dart';
+import 'package:news_app/view/favorites_page.dart.dart';
 import 'package:news_app/view/widgets/news_box.dart';
 import 'package:news_app/view/widgets/searrching_bar.dart';
 
@@ -19,19 +13,24 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ArticleSearchDelegate instance =
-        ArticleSearchDelegate(newsService.articles);
-
     return Scaffold(
       appBar: AppBar(
-        title: Text('News App'),
+        centerTitle: true,
+        title: const Text('News App'),
         actions: [
           IconButton(
-            icon: Icon(Icons.search),
+            icon: const Icon(Icons.search),
             onPressed: () {
               showSearch(
-                  context: context,
-                  delegate: ArticleSearchDelegate(newsService.articles));
+                context: context,
+                delegate: ArticleSearchDelegate(newsService.articles),
+              );
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.favorite),
+            onPressed: () {
+              Get.to(() => FavoritesPage()); // Navigate to FavoritesPage
             },
           ),
         ],
@@ -39,9 +38,9 @@ class HomePage extends StatelessWidget {
       body: Obx(
         () {
           if (newsService.isLoading.value) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (newsService.articles.isEmpty) {
-            return Center(child: Text('No articles available'));
+            return const Center(child: Text('No articles available'));
           } else {
             return Column(
               children: [
@@ -54,6 +53,10 @@ class HomePage extends StatelessWidget {
                         article: article,
                         onTap: () {
                           Get.to(() => NewsDetailPage(article: article));
+                        },
+                        onFavoritePressed: () {
+                          // Toggle favorite status and update favorites list
+                          newsService.toggleFavorite(article);
                         },
                       );
                     },
