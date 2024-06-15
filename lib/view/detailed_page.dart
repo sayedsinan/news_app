@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:news_app/model/article.dart'; // Replace with your article model file
+import 'package:news_app/model/article.dart';
 
 class NewsDetailPage extends StatelessWidget {
   final NewsArticle article;
@@ -17,12 +17,17 @@ class NewsDetailPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (article.imageUrl.isNotEmpty)
-              Image.network(
-                article.imageUrl,
-                fit: BoxFit.cover,
-              ),
-            SizedBox(height: 8.0),
+            article.imageUrl.isNotEmpty
+                ? Image.network(
+                    article.imageUrl,
+                    fit: BoxFit.cover,
+                  )
+                : Image.asset(
+                    'assets/nothing.jpg',
+                    fit: BoxFit.cover,
+                  ),
+
+            const SizedBox(height: 8.0),
             Row(
               children: [
                 Text('Publihed by '),
@@ -45,14 +50,6 @@ class NewsDetailPage extends StatelessWidget {
             ),
             SizedBox(height: 8.0),
             // Add more details or widgets as needed
-            Text(
-              article.content ??
-                  '', // Assuming your model has a 'content' field
-              style: TextStyle(
-                fontSize: 14.0,
-                color: Colors.black,
-              ),
-            ),
           ],
         ),
       ),

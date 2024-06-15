@@ -5,14 +5,36 @@ import 'package:news_app/view/detailed_page.dart';
 import 'package:news_app/view/widgets/news_box.dart';
 // Replace with your news detail page file
 
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:news_app/controller/controller.dart';
+import 'package:news_app/view/detailed_page.dart';
+import 'package:news_app/view/widgets/news_box.dart';
+import 'package:news_app/view/widgets/searrching_bar.dart';
+
 class HomePage extends StatelessWidget {
-  final NewsService newsService = Get.find();
+  final NewsService newsService = Get.find<NewsService>();
+
+  final TextEditingController searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    final ArticleSearchDelegate instance =
+        ArticleSearchDelegate(newsService.articles);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('News App'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () {
+              showSearch(
+                  context: context,
+                  delegate: ArticleSearchDelegate(newsService.articles));
+            },
+          ),
+        ],
       ),
       body: Obx(
         () {
@@ -21,17 +43,23 @@ class HomePage extends StatelessWidget {
           } else if (newsService.articles.isEmpty) {
             return Center(child: Text('No articles available'));
           } else {
-            return ListView.builder(
-              itemCount: newsService.articles.length,
-              itemBuilder: (context, index) {
-                var article = newsService.articles[index];
-                return MyCard(
-                  article: article,
-                  onTap: () {
-                    Get.to(() => NewsDetailPage(article: article));
-                  },
-                );
-              },
+            return Column(
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: newsService.articles.length,
+                    itemBuilder: (context, index) {
+                      var article = newsService.articles[index];
+                      return MyCard(
+                        article: article,
+                        onTap: () {
+                          Get.to(() => NewsDetailPage(article: article));
+                        },
+                      );
+                    },
+                  ),
+                ),
+              ],
             );
           }
         },
